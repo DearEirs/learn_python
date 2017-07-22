@@ -11,8 +11,6 @@ from os import (path,sys,)
 from . import mymodules
 from .. import mymodules
 
-#输入
-
 
 #装饰器
 @decorator
