@@ -426,7 +426,7 @@ func()#执行成功
 
 
 #6、命名空间/作用域的总结
-'''
+
 全局变量的话一般是在任何地方都可以访问到该变量,但是如果想在类或函数里边修改全局变量的值就需要使用global关键字
 
 一般称顶格定义的变量为全局变量
@@ -447,4 +447,4 @@ def test()
 
 在这种情况下会报UnboundLocalError: local variable 'os' referenced before assignment
 
-'''
+
