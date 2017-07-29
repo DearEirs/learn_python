@@ -124,6 +124,7 @@ try:
 except:
     pass
 
+#所以, try: 危险语句，except：危险发生了怎么办，else:危险没发生怎么办
 try:
     pass
 except ImportError as e:
