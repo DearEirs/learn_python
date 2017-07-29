@@ -289,29 +289,111 @@ e.zfill()
 
 l = [i for i in range(5)]
 l.append()
+'''
+L.append(object) -> None -- append object to end
+添加1个元素到列表的最后边
+'''
 l.clear()
+'''
+L.clear() -> None -- remove all items from L
+清楚列表里边的所有元素
+'''
 l.copy()
+'''
+L.copy() -> list -- a shallow copy of L
+相当于返回l[:]
+'''
 l.count()
+'''
+L.count(value) -> integer -- return number of occurrences of value
+返回列表元素的个数
+'''
 l.extend()
+'''
+L.extend(iterable) -> None -- extend list by appending elements from the iterable
+从1个iterable里边把元素append到列表
+'''
 l.index()
+'''
+L.index(value, [start, [stop]]) -> integer -- return first index of value.
+Raises ValueError if the value is not present.
+给定value 返回value所在列表的第一个index
+'''
 l.insert()
+'''
+L.insert(index, object) -- insert object before index
+在里边指定index位置插入元素
+'''
 l.pop()
+'''
+L.pop([index]) -> item -- remove and return item at index (default last).
+Raises IndexError if list is empty or index is out of range.
+在列表最后边删除1个元素并返回
+'''
 l.remove()
+'''
+L.remove(value) -> None -- remove first occurrence of value.
+Raises ValueError if the value is not present.
+根据value删除列表指定元素
+'''
 l.reverse()
+'''
+L.reverse() -- reverse *IN PLACE*
+反转列表
+'''
 l.sort()
+'''
+L.sort(key=None, reverse=False) -> None -- stable sort *IN PLACE*
+列表排序
+'''
 
 t = (1,3,5,7,9)
 t.count()
+'''
+T.count(value) -> integer -- return number of occurrences of value
+统计元祖元素个数
+'''
 t.index()
+'''
+T.index(value, [start, [stop]]) -> integer -- return first index of value.
+Raises ValueError if the value is not present.
+返回value第一次出现的索引
+'''
 
 s = set('Dear')
-s.append()
+s.add()
+'''
+Add an element to a set.
+添加1个元素到集合
+'''
 s.clear()
+'''
+Remove all elements from this set.
+删掉集合所有元素
+'''
 s.copy()
+'''
+Return a shallow copy of a set.
+'''
 s.difference()
+'''
+Return the difference of two or more sets as a new set.
+返回2个或几个集合的差集
+'''
 s.difference_update()
+'''
+Remove all elements of another set from this set.
+'''
 s.discard()
+'''
+Remove an element from a set if it is a member.
+If the element is not a member, do nothing.
+移除集合中的指定元素，如果不存在，就什么都不做
+'''
 s.intersection()
+'''
+
+'''
 s.intersection_update()
 s.isdisjoint()
 s.issubset()
