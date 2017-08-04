@@ -259,7 +259,15 @@ Return True if all cased characters in S are lowercase and there is at least one
 判断字符串内是否所有字符都为小写字母且字符不为空
 '''
 e.isnumeric()
+'''
+Return True if there are only numeric characters in S,False otherwise.
+判断字符串内是否所有字符都为数字
+'''
 e.isprintable()
+'''
+Return True if all characters in S are considered,printable in repr() or S is empty, False otherwise.
+
+'''
 e.isspace()
 e.istitle()
 e.isupper()
@@ -518,15 +526,6 @@ func()#执行成功
 
 而我们可以通过locals() 和globals() 方法来查看当前变量和全局变量
 
-而import是个例外
-impoert os
-
-def test()
-    if 1:
-        os.system('ls')
-    else:
-        import os
-
-在这种情况下会报UnboundLocalError: local variable 'os' referenced before assignment
+只要函数内部有定义过变量，它就算是函数的局部变量，在函数调用开始，就会在栈里去初始化局部变量。然而，在函数内部看，使用变量确实在定义变量之前。
 
 
