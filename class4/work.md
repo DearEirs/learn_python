@@ -27,7 +27,6 @@ func2()
 - 接收返回值
 - 内置函数与自定义函数
 
-
 ```
 def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq.smtp.com') -> bool:
     ''' function send_mail
@@ -72,33 +71,41 @@ def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq
 result = send_mail('369574757@qq.com', '123456', ['369574757@qq.com'], 'Hello World')
 print(result)
 
-# 定义函数 
+# 定义函数  从def所在行开始 直至函数所在的最后1行
 # 函数注释： 函数里边第一个注释块 help()会返回函数的注释
 # 函数返回值： return 所返回的值(默认为None)
-# 调用函数: 
-# 接收返回值：
-# 内置函数与自定义函数： 
+# 调用函数: send_mail() | result = send_mail()
+# 接收返回值： result = send_mail()
+# 内置函数与自定义函数：
 # send_mail()就是自定义函数
 # 内置函数-->不需要用户自己定义就能调用的(list,dict,tuple等)
 ```
 
 
 ### 函数的传参方式 按绑定关系传递
-s = "dear"
 
 ```
-def func(s):
 
-  print(id(s),s)
-  
-  s.replace('e','d')
-  print(id(s),s)
+str1 = "dear"
+list1 = []
+
+print(sys.getrefcount(list1)) -> 2
+
+def func(s:str, l:list):
+
+  print(sys.getrefcount(list1)) -> 5
+  print(sys.getrefcount(l)) -> 5
+  print(id(l),l)
+
+  l.append(s)
+  print(id(l),l)
   
   s += "Eirs"
   print(id(s),s)
 
-# s.replace() 调用了str的内置方法  但是值的内存地址没有改变
-# s += "Eirs" 把变量s重新指向了新的元素'dearEirs', 所以值的内存地址变了
+# 由sys.getrefcount(list1)统计得知在参数传递的过程中  只是把list1的绑定关系传递给l 相当于l = list1 
+# 由于l.append(s)只是对[]进行修改,并没有改变l与[]的绑定关系  所以两次print出来的id 是一样的
+# s += "Eirs" 把变量s重新指向了新的元素'dearEirs', 变量从绑定'dear' 变为绑定'dearEirs'所以值的内存地址变了
 ```
 
 ### 传参的形式
@@ -241,6 +248,17 @@ f2('key4','value4') -> {'key3': 'value3', 'key4': 'value4'}
 # 闭包 = 子函数 + 依赖的外部变量  子函数 inner 外部变量 dict1
 # 闭包是一种特殊的函数
 # 每调一次外部函数，返回一个新闭包 f f2 的互不干扰,是2个不一样的闭包 各自指向着不同的内存地址
+
+
+# 匿名函数可不可以是闭包
+
+def outer():
+  dict1 = {}
+  l = lambda key, value: dict1.update({key:value})
+  return l
+
+f = outer()
+print(f.__closure__) -> (<cell at 0x00000230A4645798: dict object at 0x00000230A46E2168>,)
 
 ```
  
