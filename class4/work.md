@@ -20,13 +20,6 @@ func2()
 ```
 ### 定义和调用规则
 
-- 定义函数
-- 写漂亮的文档字串
-- 返回值
-- 调用函数
-- 接收返回值
-- 内置函数与自定义函数
-
 ```python
 def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq.smtp.com') -> bool:
     ''' function send_mail
@@ -71,16 +64,16 @@ def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq
 result = send_mail('369574757@qq.com', '123456', ['369574757@qq.com'], 'Hello World')
 print(result)
 
-# 定义函数  从def所在行开始 直至函数所在的最后1行
-# 函数注释： 函数里边第一个注释块 help()会返回函数的注释
-# 函数返回值： return 所返回的值(默认为None)
-# 调用函数: send_mail() | result = send_mail()
-# 接收返回值： result = send_mail()
-# 内置函数与自定义函数：
-# send_mail()就是自定义函数
-# 内置函数-->不需要用户自己定义就能调用的(list,dict,tuple等)
-```
 
+```
+- 定义函数  从def所在行开始 直至函数所在的最后1行
+- 函数注释： 函数里边第一个注释块 help()会返回函数的注释
+- 函数返回值： return 所返回的值(默认为None)
+- 调用函数: send_mail() | result = send_mail()
+- 接收返回值： result = send_mail()
+- 内置函数与自定义函数：
+- send_mail()就是自定义函数
+- 内置函数-->不需要用户自己定义就能调用的(list,dict,tuple等)
 
 ### 函数的传参方式 按绑定关系传递
 
@@ -118,8 +111,6 @@ def func(a, b, c=6, *args):
 def func(x, y, z):
   return x-y+z
 
-
-func(1, 2, 3) #在第一、二、三位的参数1,2,3分别对应着参数x,y,z 所以叫按位置传参
 ```
 
 - 必选参数: a, b   func(1, 2)
@@ -127,6 +118,7 @@ func(1, 2, 3) #在第一、二、三位的参数1,2,3分别对应着参数x,y,z 
 - 按位置传参: func(1,2,3)  在第一、二、三位的参数1,2,3分别对应着参数a, b, c
 - 关键字参数: func(a=1, b=2, c=3)
 - 可变长参数: func(1,2,3,4,'dear'),在a,b,c 都接收到参数后,其余参数传递给*args
+
 
 ### 匿名函数
 
@@ -288,5 +280,6 @@ def outer():
 f = outer()
 print(f.__closure__) -> (<cell at 0x00000230A4645798: dict object at 0x00000230A46E2168>,)
 
+# 匿名函数也可以是闭包
 ```
- 
+
