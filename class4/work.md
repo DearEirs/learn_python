@@ -69,8 +69,17 @@ def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq
       result = False
     return result
 
-result = send_mail('369574757@qq.com', '123456', ['369574757@qq.com'],  'Hello World')
+result = send_mail('369574757@qq.com', '123456', ['369574757@qq.com'], 'Hello World')
 print(result)
+
+# 定义函数 
+# 函数注释： 函数里边第一个注释块
+# 函数返回值： return 所返回的值(默认为None)
+# 调用函数: 
+# 接收返回值：
+# 内置函数与自定义函数： 
+# send_mail()就是自定义函数
+# 内置函数-->不需要用户自己定义就能调用的(list,dict,tuple等)
 ```
 
 
