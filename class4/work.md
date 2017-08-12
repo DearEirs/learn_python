@@ -1,7 +1,7 @@
 # 用代码来验证课程所讲内容
 
 ### 函数的意义
-```
+```python
 #函数是对单一相关操作的有组织的可重用代码的块的封装
 #为应用程序提供更好的模块化以及提高代码的复用程度
 def func1(x, y, z):
@@ -27,7 +27,7 @@ func2()
 - 接收返回值
 - 内置函数与自定义函数
 
-```
+```python
 def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq.smtp.com') -> bool:
     ''' function send_mail
     
@@ -84,7 +84,7 @@ print(result)
 
 ### 函数的传参方式 按绑定关系传递
 
-```
+```python
 
 str1 = "dear"
 list1 = []
@@ -111,7 +111,7 @@ def func(s:str, l:list):
 ### 传参的形式
 
 
-```
+```python
 def func(a, b, c=6, *args):
   return id(a),id(b),id(c)
   
@@ -130,19 +130,21 @@ func(1, 2, 3) #在第一、二、三位的参数1,2,3分别对应着参数x,y,z 
 
 ### 匿名函数
 
-```
+```python
 lambda x: x % 2
 
 相当于
 def func(x):
   return x % 2
-```
 
 #使用情景: 函数体可以用1条表达式就可以解决时
+```
+
+
 
 ### 作用域
 
-```
+```python
 #!/usr/bin/env python
 
 x = 1
@@ -170,8 +172,8 @@ print(total)
 - 局部变量：在函数或类里边所定义的变量，只在该函数或类中生效,可用locals()查看
 
 ### 生命周期
-### 变量的生命周期
-```
+```python
+
 a = 10000
 sys.getrefcount(a) -> 2
 del a
@@ -192,7 +194,8 @@ def func(x,y,z):
 
 # 垃圾回收
 ### 引用计数
-```
+
+```python
 # sys.getrefcount() 统计变量所指向内存地址被引用的次数
 a = 1000
 sys.getrefcount(a) -> 2
@@ -214,7 +217,8 @@ sys.getrefcount(c) -> 3
 ```
 
 ### 分代收集
-```
+
+```python
 # gc.get_count() 查看当前回收计数
 # gc.get_threshold() 查看回收阈值 -> (700, 10, 10)
 
@@ -227,7 +231,8 @@ sys.getrefcount(c) -> 3
 查看函数是不是闭包：
 2.7:func.func_closure  返回cell对象即为闭包  返回None即不是
 3.6:func.__closure__
-```
+
+```python
 def outer():
   dict1 = {}
   def inner(key,value):
