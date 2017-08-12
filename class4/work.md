@@ -228,11 +228,15 @@ sys.getrefcount(c) -> 3
 - 前提1：嵌套函数
 - 前提2：内层函数引用非全局变量
 - 前提3：不改变外部变量的绑定关系
+
+```python
+
+'''
 查看函数是不是闭包：
 2.7:func.func_closure  返回cell对象即为闭包  返回None即不是
 3.6:func.__closure__
+'''
 
-```python
 def outer():
   dict1 = {}
   def inner(key,value):
