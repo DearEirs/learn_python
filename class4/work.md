@@ -27,7 +27,29 @@ func2()
 - 接收返回值
 - 内置函数与自定义函数
 
-def email(sender, password, receiver,  message, subject=None, smtpserver='qq.smtp.com') -> bool:
+def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq.smtp.com') -> bool:
+    ''' function send_mail
+    
+    :param sender: 发件人的邮箱地址
+    :type sender: str
+    
+    :param password: 发件人的邮箱密码
+    :type password: str
+    
+    :param receiver: 收件人的邮箱地址
+    :type receiver: list
+    
+    :param message: 邮件内容
+    :type message: str
+    
+    :param subject: 邮件标题
+    :type subject: str
+    
+    :param smtpserver: 邮件服务器, 默认为'qq.smtp.com'
+    :type smtpserver: str
+    
+    :return bool
+    '''
     msg=MIMEText(message)
     msg['Subject']=subject
     msg['Form']=sender
@@ -45,7 +67,8 @@ def email(sender, password, receiver,  message, subject=None, smtpserver='qq.smt
       result = False
     return result
 
-
+result = send_mail('369574757@qq.com', '123456', ['369574757@qq.com'],  'Hello World')
+print(result)
 
 def func(a: 'spam' = 4, b: (1, 10) = 5, c: float = 6) -> int: 
 def func(x, y:int=3 z=1, *args, **kwargs) -> int:
