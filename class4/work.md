@@ -93,7 +93,8 @@ def func(s:str, l:list):
   l.append(s)
   print(id(l),l)
   
-  s += "Eirs"
+  print(id(s),s)
+  s += "Eirs"
   print(id(s),s)
 
 # 由sys.getrefcount(list1)统计得知在参数传递的过程中  只是把list1的绑定关系传递给l 相当于l = list1 
