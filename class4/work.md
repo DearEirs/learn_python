@@ -73,7 +73,7 @@ result = send_mail('369574757@qq.com', '123456', ['369574757@qq.com'], 'Hello Wo
 print(result)
 
 # 定义函数 
-# 函数注释： 函数里边第一个注释块
+# 函数注释： 函数里边第一个注释块 help()会返回函数的注释
 # 函数返回值： return 所返回的值(默认为None)
 # 调用函数: 
 # 接收返回值：
@@ -169,7 +169,7 @@ a = 10000
 sys.getrefcount(a) -> 2
 del a
 sys.getrefcount(a) -> 1
-#变量a的生命周期结束,如果不del a   那么变量a 将会一直存在 直至程序关闭
+#变量a的生命周期结束,如果不del a   那么变量a将会一直存在 直至程序关闭
 
 #函数的生命周期
 def func(x,y,z):
@@ -180,4 +180,68 @@ def func(x,y,z):
 #从函数第一行开始 到函数 return 返回值 若没return则到函数代码里的最后1行执行结束  即为函数的生命周期
 
 #对象的生命周期
+当对象被垃圾回收机制回收时,对象才会结束它的生命周期
 ```
+
+# 垃圾回收
+### 引用计数
+```
+# sys.getrefcount() 统计变量所指向内存地址被引用的次数
+a = 1000
+sys.getrefcount(a) -> 2
+
+b = c  = a 
+sys.getrefcount(a) -> 4
+sys.getrefcount(b) -> 4
+sys.getrefcount(c) -> 4
+
+# 每当有1个变量1000时  1000的引用计数就会加1  a, b, c, d,都指向着1000
+
+del a 
+
+sys.getrefcount(a) -> 1
+sys.getrefcount(b) -> 3
+sys.getrefcount(c) -> 3
+
+当变量a被销毁时, 1000的引用次数就会减1
+```
+
+### 分代收集
+```
+# gc.get_count() 查看当前回收计数
+# gc.get_threshold() 查看回收阈值 -> (700, 10, 10)
+
+```
+
+# 闭包
+
+- 前提1：嵌套函数
+- 前提2：内层函数引用非全局变量
+- 前提3：不改变外部变量的绑定关系
+查看函数是不是闭包：
+2.7:func.func_closure  返回cell对象即为闭包  返回None即不是
+3.6:func.__closure__
+```
+def outer():
+  dict1 = {}
+  def inner(key,value):
+    dict1[key] = value
+    return dict1
+  return inner
+
+f1 = outer()
+print(f.__closure__) -> (<cell at 0x000002BEE0BC57C8: dict object at 0x000002BEE0FD5F78>,)
+f1('key1','value1')
+f1('key2','value2') -> {'key1': 'value1', 'key2': 'value2'}
+
+f2 = outer()
+f2('key3','value3')
+f2('key4','value4') -> {'key3': 'value3', 'key4': 'value4'}
+
+# 当外部函数被调用时，返回一个闭包 即f,f2
+# 闭包 = 子函数 + 依赖的外部变量  子函数 inner 外部变量 dict1
+# 闭包是一种特殊的函数
+# 每调一次外部函数，返回一个新闭包 f f2 的互不干扰,是2个不一样的闭包 各自指向着不同的内存地址
+
+```
+ 
