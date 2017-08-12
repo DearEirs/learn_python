@@ -222,6 +222,25 @@ sys.getrefcount(c) -> 3
 # gc.get_count() 查看当前回收计数
 # gc.get_threshold() 查看回收阈值 -> (700, 10, 10)
 
+import gc
+
+class A:
+  pass
+
+def func1():
+    i = 0
+    while i<200:
+      c1 = A()
+      c2 = A()
+      c1.t = c2
+      c2.t = c1
+      del c1
+      del c2
+      i += 1
+
+gc.get_count()
+func1()
+gc.get_count()
 ```
 
 # 闭包
