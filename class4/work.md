@@ -27,6 +27,8 @@ func2()
 - 接收返回值
 - 内置函数与自定义函数
 
+
+```
 def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq.smtp.com') -> bool:
     ''' function send_mail
     
@@ -69,16 +71,8 @@ def send_mail(sender, password, receiver,  message, subject=None, smtpserver='qq
 
 result = send_mail('369574757@qq.com', '123456', ['369574757@qq.com'],  'Hello World')
 print(result)
+```
 
-def func(a: 'spam' = 4, b: (1, 10) = 5, c: float = 6) -> int: 
-def func(x, y:int=3 z=1, *args, **kwargs) -> int:
-    ''' function func
-    
-    :param x: bla x
-    :type x: str
-    '''
-
-    return x+y+z
 
 # 函数的传参方式 按绑定关系传递
 s = "dear"
