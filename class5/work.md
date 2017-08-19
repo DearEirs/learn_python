@@ -1,5 +1,11 @@
 # 用代码来验证课程所讲内容
 
+面向对象的基本特点
+- 封装
+- 继承
+- 多态
+---
+### 基本概念
 ```python
 class Humen:
   count = 0
@@ -17,6 +23,15 @@ class Humen:
     pass
 
 xiaoming = Humen('xiaoming', 18, 180, 100)
+'''
+类(Class) ：用户通过定义一组属性以定义一种对象的原型，用于表征该类的任何对象。属性是指数据成员（类变量和实例变量）和方法。
+对象（Object）：根据类定义的实例，包含数据成员与方法。
+实例（ Instance ）：类的一个单独的对象，是该类所代表的原型的特定实例之一。
+类变量（Class variable）：被类的所有实例共享的变量。类变量定义在类里，但再任何方法之外。
+实例变量（Instance variable）：定义在方法内部，且只属于当前实例的变量。
+数据成员（ Data member ）：类或实例的变量，用于保存相关联的数据。
+方法（Method）：定义在类里面的函数，代表着类的实例具有的行为。
+'''
 ```
 
 - 类(Class) ：Humen
@@ -27,7 +42,7 @@ xiaoming = Humen('xiaoming', 18, 180, 100)
 - 数据成员（ Data member ）：xiaoming.name|age|hight|weight
 - 方法（Method）：xiaoming.__init__|walk|sleep 和其他内置方法
 
-
+### 基本概念
 ```python
 # 承接上面
 
