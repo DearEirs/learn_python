@@ -1,6 +1,6 @@
 # 用代码来验证课程所讲内容
 
-```
+```python
 class Humen:
   count = 0
   def __init__(self, name, age, hight, weight)
@@ -28,7 +28,7 @@ xiaoming = Humen('xiaoming', 18, 180, 100)
 - 方法（Method）：xiaoming.__init__|walk|sleep 和其他内置方法
 
 
-```
+```python
 # 承接上面
 
 class Man(Humen):
@@ -54,7 +54,7 @@ print(daming.age) -> 29
 基类/父类:classHumen
 ```
 
-```
+```python
 class A:
   def __new__(cls, *args, *kwargs):
     print("method __new__ run")
@@ -103,7 +103,7 @@ delattr(b, 'age') == b.__delattr('age')
 ```
 
 ### 内置属性
-```
+```python
 class C:
   ''' This is Object C '''
   def __init__(self, name, age):
@@ -116,4 +116,41 @@ print(c.__doc__)  -> 'This is Object C' #与函数注释一样会被help函数�
 print(c.__module__)  -> '__main__' #显示函数被那个模块所调用,当前为__main__
 print(C.__bases__) -> (<class 'object'>,) #由父类组成的元组, 注意用的是类C 而不是实例c 
 #类在没有继承其他类的情况下,默认会继承object类
+```
+
+### 继承与多继承
+```python
+class Father:
+  def __init__(self, first_name, name)
+    self.first_name = name
+  
+  def full_name():
+    return first_name + name
+  
+  def func(self):
+    print("Fater's func")
+
+class Child(Father):
+  def __init__(self, gender, name):
+    self.gender = gender
+    self.name = name
+  
+  def func(self):
+    print("Child's func")
+  
+  def father_func(self):
+    super().func()
+
+class Child2(Child, Father): #多继承时,如继承的类之间有继承关系,那么子类需写在父类前面
+  pass
+
+f = Father('chen', 'ergou')
+c = Child('Male', 'sangou')
+c.first_name -> 'chen' #子类可以继承父类的数据成员与方法
+c.func() -> 'Child's func' #也可以重写父类的数据成员与方法
+c.father_func() -> "Fater's func" #子类可以通过super() 来调用父类中的方法
+c2 = Child2() 
+issubclass(Child2, Father) -> True #判断Child2 是否为 Father 的子类
+isinstance(Father, Child2) -> True #判断Father 是否有 Chile2 的子类
+
 ```
