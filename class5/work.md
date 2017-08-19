@@ -297,6 +297,7 @@ class Login:
     #password = encrypt(password) #效果一样
     password = self.encrypt(password)
     print(login)
+
 cls == class Object
 self == 实例本身
 
@@ -306,4 +307,73 @@ login = Login.login_by_phone(13123456789)
 @staticmethod：静态方法和在普通的非class的method作用是一样的，只不过是命名空间是在类里面。
 一般使用场景就是和类相关的操作，但是又不会依赖和改变类、实例的状态。
 '''
+```
+
+# 设计程序
+```python
+# Hosts 主机类
+# Salt_Hosts 被Salt 监控的主机类
+# Salt_Master Salt Master 类, 管理minion包括Syndic的minion
+# Salt_Syndic Syndic类 管理自己的minion 但被master 管理
+
+class Hosts:
+  def __init__(self, hostname, ip)
+    self.hostname = hostname
+    self.ip = ip
+
+  def is_alive(self):
+    pass
+  
+  
+
+
+class Salt_Hosts(Hosts):
+  def __init__(self, hostname, ip, salt_id)
+    super().__init__(hostname, ip)
+  
+  def salt_run(self):
+    #在本机执行salt命令 所有salt客户端都可执行
+    pass
+
+  def is_master(self):
+    #判断机器是否为master 
+    pass
+
+  def is_syndic(self):
+    #判断机器是否为Syndic
+    pass
+
+
+class Salt_Master(Salt_Hosts):
+
+  def keys_manager(self, target=None, action='list-all' ):
+    # 秘钥管理 根据action 与target 作出相关操作
+    pass
+
+  def excute_cmd(self, target, cmd):
+    # 对指定target 执行命令  salt target cmd.run cmd 
+    # 常用
+    pass
+  
+  def excute_sls(self, target, sls):
+    # 对指定target 执行命令 salt target state.sls sls
+    pass
+
+  def excute_salt_cmd(self, target, cmd):
+    #  执行自定义的salt 命令
+    #  target = '*'
+    #  cmd = 'pillar.get os'
+    #  salt '*' pillar.get os
+    pass
+
+  def install_minions(self, target):
+    # 使用salt-ssh 对target 安装salt-minion客户端
+    pass
+
+def Salt_Syndic(Salt_Master):
+
+  def __init__(self, hostname, ip, salt_id, master)
+    self.salt_id = salt_id
+    self.master = master
+    super().__init__(hostname, ip)
 ```
