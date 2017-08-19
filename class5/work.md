@@ -154,3 +154,141 @@ issubclass(Child2, Father) -> True #判断Child2 是否为 Father 的子类
 isinstance(Father, Child2) -> True #判断Father 是否有 Chile2 的子类
 
 ```
+
+### 常内置方法重载
+```python
+class D:
+  def __init__(self, host, port):
+    self.host = host
+    self.port = port
+    print('connect db')
+    
+  def __del__(self)
+    print('disconncet db')
+    
+  def __repr__(self):
+    return '__repr__'
+    
+  def __str__(self):
+    return '__str__'
+  
+  def __len__(self):
+    return  1
+
+d = D('192.168.0.1', '3306') -> 'connect db'  #__init__ 方法在类实例化时就会调用
+print(d) -> '__str__' #__str__方法在打印实例信息时被输出,必须返回str
+repr(d) -> '__repr__' #打印实例信息时,若__str__里没返回信息 那么就会把__repr__的信息返回,同样__repr__返回的必须是str
+# 当__str__和__repr__ 都没返回信息时  默认打印类的信息 如<__main__.F object at 0x000001C904692A58>
+len(d) -> 1 #__len__ 方法在len(Object) 时被调用
+```
+
+### 常用运算符重载
+```python
+class E:
+  flag = True
+  def __init__(self, value):
+    self.value = value
+  
+  def __bool__(self):
+    return Flag
+  
+  def __add__(self, value):
+    self.value = self.value + value
+    return self.value
+  
+  def __radd__(self, value):
+    return self.value
+  
+  def __iadd__(self, value):
+    self.value += value
+    return self.value
+  
+  def __or__(self, value):
+    reslut = self.value or value
+    return reslut
+  
+  def __lt__(self, value):
+    reslut = self.value < value
+    return reslut
+  
+  def __gt__(self, value):
+    reslut = self.value > value
+    return reslut
+  
+  def __le__(self, value):
+    result = self.value <= value
+    return result
+  
+  def __ge__(self, value):
+    result = self.value >= value
+    return result
+
+'''
+__bool__（self）: 使用bool(object) 时触发
+__add__(self, other): 使用object + other 时触发
+__radd__(self, other): 使用other + object 时触发
+__iadd__(self, other): 使用object += other 时触发
+__or__(self, other): 使用object or other 时触发
+__lt__(self, other): 使用object <  other 时触发
+__gt__(self, other): 使用object >  other 时触发
+__le__(self, other): 使用object <= other 时触发
+__ge__(self, other): 使用object >= other 时触发
+lt = less than
+gt = greater than
+le = less and equal
+ge = greater and equal
+'''
+```
+
+### 属性隐藏
+```python
+class F:
+  def __init__(self):
+    self._name = 'Dear'
+    self.__age = 18
+
+f = F()
+f._name in dir(f) -> True
+f.__age in dir(f) -> False
+# python 实际在不存在只能由该类访问的私有属性 只是通过一些方法隐藏起来
+# _name 保护性质的属性,不建议修改, 可以通过f._name 来访问得到
+# __age 私有性质的属性,但是实际上还是可以访问得到,通过 __ 所定义的"私有属性" 在python中会被转成 _Object__Attr 即_F__age
+# _F__age 通过命名方式就可以大概知道 __age 这个属性是属性 F 这个类的
+```
+
+### 类方法与静态方法
+```python
+
+def encrypt(password):
+  return md5(password)
+
+class Login:
+  def __init__(self, username, password):
+    self.username = username
+    self.password = password
+    self.login(username, password)
+  
+  @classmethod
+  def login_by_phone(cls, phone):
+    print('connect db')
+    print('get username and password by phone')
+    return cls(username,password)
+  
+  @staticmethod
+  def encrypt(password):
+    return md5(password)
+  
+  def login(self, username, password):
+    #password = encrypt(password) #效果一样
+    password = self.encrypt(password)
+    print(login)
+cls == class Object
+self == 实例本身
+
+login = Login.login_by_phone(13123456789)
+'''
+@classmethod：常用于定义备选构造方法，
+@staticmethod：静态方法和在普通的非class的method作用是一样的，只不过是命名空间是在类里面。
+一般使用场景就是和类相关的操作，但是又不会依赖和改变类、实例的状态。
+'''
+```
