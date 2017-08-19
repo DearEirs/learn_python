@@ -77,3 +77,43 @@ a = A()
 
 ```
 
+### 属性访问
+```python
+class B:
+  def __init__(self, name):
+    self.name = name
+
+b = B('Dear')
+b.name  -> 'Dear'
+getattr(Object, name, defalut)
+getattr(b, 'name') -> 'Dear'
+b.__getattribute__('name') -> 'Dear'
+getattr(b, 'age') -> AttributeError
+getattr(b, 'age', 18) -> 18
+hasattr(obj, name)
+hasattr(b, 'name')  -> True
+hasattr(b, 'haha')  -> False
+setattr(Object, name, value)
+setattr(b, 'name', 'haha')
+b.name -> 'haha'
+setattr(b, 'age', 18) == b.__setattr__('age', 18) == b.age=18
+b.age -> 18
+delattr(obj, name)
+delattr(b, 'age') == b.__delattr('age')
+```
+
+### 内置属性
+```
+class C:
+  ''' This is Object C '''
+  def __init__(self, name, age):
+    pass
+
+c = C('Dear', 18)
+print(c.__dict__)  -> {'name': 'Dear', 'age': 18} #当前实例所拥有属性组成的字典
+# c.a = 1  == c.__dict__[a] = 1 
+print(c.__doc__)  -> 'This is Object C' #与函数注释一样会被help函数显示
+print(c.__module__)  -> '__main__' #显示函数被那个模块所调用,当前为__main__
+print(C.__bases__) -> (<class 'object'>,) #由父类组成的元组, 注意用的是类C 而不是实例c 
+#类在没有继承其他类的情况下,默认会继承object类
+```
