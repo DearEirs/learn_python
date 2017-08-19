@@ -370,7 +370,7 @@ class Salt_Master(Salt_Hosts):
     # 使用salt-ssh 对target 安装salt-minion客户端
     pass
 
-def Salt_Syndic(Salt_Master):
+class Salt_Syndic(Salt_Master):
 
   def __init__(self, hostname, ip, salt_id, master)
     self.salt_id = salt_id
