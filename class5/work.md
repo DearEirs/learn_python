@@ -61,7 +61,7 @@ daming = Man('xiaoming', 28, 170, 120)
 daming + 1
 print(daming.age) -> 29
 
-实例化（ Instantiation ）：daming = Man('xiaoming', 28, 170, 120)
+实例化（ Instantiation ）：daming = Man('daming', 28, 170, 120)
 继承（ Inheritance ）：class Man(Humen):
 函数重载（Function overloading）：
 运算符重载（Operator overloading）：
