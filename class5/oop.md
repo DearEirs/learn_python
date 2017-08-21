@@ -327,7 +327,7 @@ class Hosts:
   
 
 
-class Salt_Hosts(Hosts):
+class SaltHosts(Hosts):
   def __init__(self, hostname, ip, salt_id)
     super().__init__(hostname, ip)
   
@@ -344,7 +344,7 @@ class Salt_Hosts(Hosts):
     pass
 
 
-class Salt_Master(Salt_Hosts):
+class SaltMaster(Salt_Hosts):
 
   def keys_manager(self, target=None, action='list-all' ):
     # 秘钥管理 根据action 与target 作出相关操作
@@ -370,7 +370,7 @@ class Salt_Master(Salt_Hosts):
     # 使用salt-ssh 对target 安装salt-minion客户端
     pass
 
-class Salt_Syndic(Salt_Master):
+class SaltSyndic(Salt_Master):
 
   def __init__(self, hostname, ip, salt_id, master)
     self.salt_id = salt_id
