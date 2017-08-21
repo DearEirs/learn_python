@@ -166,8 +166,8 @@ c.func() -> 'Child's func' #也可以重写父类的数据成员与方法
 c.father_func() -> "Fater's func" #子类可以通过super() 来调用父类中的方法
 c2 = Child2() 
 issubclass(Child2, Father) -> True #判断Child2 是否为 Father 的子类
-isinstance(Father, Child2) -> True #判断Father 是否有 Chile2 的子类
-
+isinstance(Father, Child2) -> True 
+#如果参数object是classinfo的实例,或者object是classinfo类的子类的一个实例,返回True.如果object不是一个给定类型的的对象,则返回结果总是False.
 ```
 
 ### 常内置方法重载
