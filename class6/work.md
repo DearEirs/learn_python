@@ -81,7 +81,7 @@ ansers_dict = {
           'a' : 1,
           'b' : 2,
           'c' : 3,
-          'd' : 4,
+          'd' : 4
 }
 
 question = ('人有多少个鼻子?')
@@ -138,7 +138,8 @@ print(list1) --> [1,2,3,5,41]
 - tuple：有序、不可变长、元素可重复
 - set：无序、可变长、元素不可重复
 
-决绝万年list,决绝万年list,决绝万年list,
+拒绝万年list,拒绝万年list,拒绝万年list,
+
 一般来说:
 长度,元素不可变的情况下 选tuple
 对顺序无要求,元素不可重复的情况下,选set
@@ -215,7 +216,23 @@ python2.x 中 True相当于一个指向1的变量,使用True时 需要先把内�
 with 结束时 系统会自动关闭打开的对象
 ```
 # 写一个可用于上下文管理的对象
+# __enter__()  open时触发
+# __exit__()  with 结束时触发
 
+class WithTest:
+  def __enter__(self):
+    print('start')
+    self.file = open('myfile')
+    return self.file
+  def __exit__(self, *args):
+    print('end')
+    return True
+
+wt = WithTest()
+
+with a as file:
+  file.readlines()
+  
 ```
 
 ### 字符串连接
@@ -243,4 +260,83 @@ timeit.timeit(func2number=10000) -->
 - 浅拷贝 copy.copy(obj) 只拷贝“第一层”对象
 - 深拷贝 copy.deepcopy(obj) 递归拷贝“每一层”对象
 - 不论深浅拷贝，不会为 全由不可变对象组成的对象 申请新内存空间
-对象 with as
+
+```python
+#深、浅拷贝
+l = ['a','b','c',['d']]
+l1 = copy.copy(l)
+l2 = copy.deepcopy(l)
+
+l is l1  --> False
+l is l2  --> False
+
+l[3] is l1[3] --> True
+l[3] is l2[3] --> False
+
+#浅拷贝只会拷贝第一层对象,而对于深层的对象 引用的还是原来的内存地址的值
+#深拷贝会进行递归拷贝,拷贝出来的对象与原对象除了值一样,没有其他关系
+
+l[-1][0] = 'e'
+print(l)  --> ['a', 'b', 'c', ['e']]
+print(l1) --> ['a', 'b', 'c', ['e']]
+print(l2) --> ['a', 'b', 'c', ['d']]
+
+#不论深浅拷贝，不会为 全由不可变对象组成的对象 申请新内存空间
+
+t = (1,2,3)
+id(t) --> 46640872
+t1 = copy.copy(t)
+id(t1) --> 46640872
+t2 = copy.deepcopy(t)
+id(t2) --> 46640872
+
+
+```
+
+### 节省内存开销
+- 生成器惰性求值，只迭代一遍
+- f = open(‘filename’); “for line in f”  vs for line in f.readlines()
+
+```python
+list1 = [i for i in range(100000)]
+
+def func():
+  for i in list1:
+   pass
+
+def func1():
+  for i in list1:
+    yield i
+
+timeit.timeit(func,number=1000) --> 0.9298560397275537
+timeit.timeit(func,number=1000) --> 0.0002835632612345762
+
+```
+
+### 循环优化
+- 尽量减少循环体内操作
+- 尽量减少循环嵌套层数
+- 大多数情况下大循环放在更里层效率更高
+
+```python
+def func():
+  for i in range(10):
+    for i in range(100000):
+      pass
+
+def func2():
+  for i in range(100000):
+    for i in range(10):
+      pass
+
+timeit.timeit(func,number=1000) --> 20.439412046114683
+timeit.timeit(func2,number=1000) --> 38.57239906224004
+```
+
+
+
+### 变量命名空间
+- 能使用局部变量就不要使用全局变量
+- 能放在循环更外层的就不要放到循环更里层
+- 最小权限原则
+
