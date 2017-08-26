@@ -222,4 +222,25 @@ with 结束时 系统会自动关闭打开的对象
 - join 与 + 两种方式
 - 前者更省内存
 
+```python
+list1 = ['a' for i in range(100000)]
+
+def func():
+  s = ''.join(list1)
+  
+def func2:
+  s = ''
+  for i in list1:
+    s += i
+
+timeit.timeit(func,number=10000) --> 4.525133861871087
+timeit.timeit(func2number=10000) --> 
+
+```
+
+### 深浅拷贝
+
+- 浅拷贝 copy.copy(obj) 只拷贝“第一层”对象
+- 深拷贝 copy.deepcopy(obj) 递归拷贝“每一层”对象
+- 不论深浅拷贝，不会为 全由不可变对象组成的对象 申请新内存空间
 对象 with as
