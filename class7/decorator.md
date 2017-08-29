@@ -4,7 +4,7 @@
 
 装饰器的使用:
 情景1:实现用户访问某些网页时,需要先登录,如果没登录就重定向到登录界面
-
+```python
 def login_required(func):
     login_url = 'login.html'
     if 'user is not login':
@@ -18,8 +18,10 @@ def login_required(func):
 @login_required
 def func():
     pass
+```
 
 情景2:但是有时候login_url 并不是固定的  所以我们需要在使用时自定义返回的页面
+```python
 def login_required(login_url='login.html')
     if not isinstance(login_url,str):
         login_url = 'login.html'
@@ -37,11 +39,12 @@ def login_required(login_url='login.html')
 @login_required(login_url='login2.html')
 def func():
     pass
-
+```
 这时候,只需要在最外边再定义一层函数来接收调用装饰器时所传递的参数就可以
 这时候的func = login_required(login_url='login2.html')(func)(*args, *kwargs)
 
-同时使用多个装饰器:
+##### 同时使用多个装饰器:
+```
 def outer1(func):
     def inner1():
         print('inner1 first')
@@ -71,8 +74,7 @@ def outer3(func):
 def func():
     print('Hello World')
 
-func()
-
+```
 当出现同时多个装饰器时,装饰器会从下往上执行
 1、@outer3  func() = outer3(func)  --> 返回inner1
 2、@outer2  outer2(func) = outer2(outer3(func)) --> outer3(func)== func 被传入outer2
@@ -90,22 +92,13 @@ func()
 9.outer2(func):  --> print('inner2 second')
 10.outer1(func): --> print('inner1 second')
 
+##### 用类来做装饰器
 
-
-当使用1个装饰器时 @outer3 = outer3(func)
-当使用多个装饰器时,执行顺序则由下往上依次执行,即先执行@outer3 --> @outer2 -- @outer1
-相当于返回了         outer1(outer2(outer3(func))) 层层嵌套
-
-
-
-
-用类来做装饰器
-
-1.实现@X 
+##### 实现@X 
 @X func = X(func)   --> init
 @X func() = X(func)()  --> init call
 
-方案1：
+```python
 class DecoClass:
     def __init__(self, func):
         self.func = func
@@ -118,24 +111,10 @@ class DecoClass:
 @DecoClass
 def func():
     print('Hello World')
+```
 
-#这种方法也可以达到装饰器的效果,在func执行前后分别进行操作,但是发现返回的func 并不是闭包
-
-
-class DecoClass:
-    def __call__(self, func):
-        def inner():
-            print('执行func前')
-            func()
-            print('执行func后')
-        return inner
-
-@DecoClass()
-def func():
-    print('Hello World')
-
-#而这种方法返回的新函数是闭包
-
+##### 实现@DecoClass(args)
+```python
 class DecoClass:
     def __init__(self, args):
         self.arg = args
@@ -151,33 +130,16 @@ class DecoClass:
 @DecoClass(1)
 def func(*args, **kwargs):
     print('Hello World')
-
+```
 #@DecoClass(1) 其实是被__init__接收的 而func则被__call__接收
 #@DecoClass(1) func = DecoClass(1)(func)   DecoClass(1)初始化 返回的是实例   实例() 则调用__call__
 
 
+##### 实现@DecoClass.deco
+```python
 class DecoClass:
-    @classmethod
-    def deco(cls,func):
-        def inner(*args, **kwargs):
-            print('执行func前')
-            result = func(*args, **kwargs)
-            print('执行func后')
-            return result
-        return inner
-
-class DecoClass:
-    @staticmethod
-    def deco(func):
-        def inner(*args, **kwargs):
-            print('执行func前')
-            result = func(*args, **kwargs)
-            print('执行func后')
-            return result
-        return inner
-
-class DecoClass:
-    def deco(func):
+    #[@classmethod|@staticmethod]
+    def deco(func):
         def inner(*args, **kwargs):
             print('执行func前')
             result = func(*args, **kwargs)
@@ -188,7 +150,10 @@ class DecoClass:
 @DecoClass.deco
 def func():
     print('Hello World')
+```
 
+##### 实现@DecoClass.deco(1)
+```python
 class DecoClass:
     def deco(arg):
         def outer(func):
@@ -204,8 +169,10 @@ class DecoClass:
 @DecoClass.deco(1)
 def func():
     print('Hello World')
+```
 
-
+##### 实现@decoclass
+```
 class DecoClass:
     def __call__(self, func):
         def inner(*args, **kwargs):
@@ -219,8 +186,10 @@ decoclass = DecoClass()
 @decoclass
 def func():
     print('Hello World')
+```
 
-
+##### 实现@decoclass(args)
+```python
 class DecoClass:
     def __call__(self, *args, **kwargs):
         def outer(func):
@@ -237,8 +206,10 @@ decoclass = DecoClass()
 @decoclass(1)
 def func():
     print('Hello World')
+```
 
-
+##### 实现@decoclass.deco
+```python
 class DecoClass:
     def deco(self, func):
         def inner(*args, **kwargs):
@@ -253,8 +224,10 @@ decoclass = DecoClass()
 @decoclass.deco
 def func():
     print('Hello World')
+```
 
-
+##### 实现@decoclass.deco(args)
+```python
 class DecoClass:
     def deco(self, *args, **kwargs):
         def outer(func):
@@ -272,31 +245,4 @@ decoclass = DecoClass()
 @decoclass.deco(1)
 def func():
     print('Hello World')
-
-
-
-
-
-
-class X:
-    def __init__(self,arg):
-        self.arg=arg
-    def __call__(self, func):
-        print('test')
-        func()
-    def oper(func):
-        def inner(*arg,**kwargs):
-            print(1)
-            func()
-        return inner
-
-@X.oper
-def func():
-    print(2)
-
-
-
-
-
-
-
+```
