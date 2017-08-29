@@ -62,9 +62,7 @@ def outer2(func):
     return inner2
 
 def outer3(func):
-    a = 3
     def inner3():
-        print(a)
         print('inner3 first')
         func()
         print('inner3 second')
@@ -79,22 +77,22 @@ def func():
 ```
 当出现同时多个装饰器时,装饰器会从下往上执行
 
-1、@outer3  func() = outer3(func)  --> 返回inner1
-2、@outer2  outer2(func) = outer2(outer3(func)) --> outer3(func)== func 被传入outer2
-3、@outer1  outer1(func) = outer1(outer2(outer3(func))) --> outer2(outer3(func)) == func 被传入outer1
+1. @outer3  func() = outer3(func)  --> 返回inner1
+2. @outer2  outer2(func) = outer2(outer3(func)) --> outer3(func)== func 被传入outer2
+3. @outer1  outer1(func) = outer1(outer2(outer3(func))) --> outer2(outer3(func)) == func 被传入outer1
 
 所以实际执行顺序为
 
-1.outer1(func):  --> print('inner1 first')
-2.outer1(func):  --> func() == outer2(outer3(func))
-3.outer2(func):  --> print('inner2 first')
-4.outer2(func):  --> func() == outer3(func)
-5.outer3(func):  --> print('inner3 first')
-6.outer3(func):  --> func() == func() (装饰器外定义的)
-7.func():        --> print('Hello World')
-8.outer3(func):  --> print('inner3 second')
-9.outer2(func):  --> print('inner2 second')
-10.outer1(func): --> print('inner1 second')
+1. outer1(func):  --> print('inner1 first')
+2. outer1(func):  --> func() == outer2(outer3(func))
+3. outer2(func):  --> print('inner2 first')
+4. outer2(func):  --> func() == outer3(func)
+5. outer3(func):  --> print('inner3 first')
+6. outer3(func):  --> func() == func() (装饰器外定义的)
+7. func():        --> print('Hello World')
+8. outer3(func):  --> print('inner3 second')
+9. outer2(func):  --> print('inner2 second')
+10. outer1(func): --> print('inner1 second')
 
 ##### 用类来做装饰器
 
