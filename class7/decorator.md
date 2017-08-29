@@ -98,6 +98,7 @@ def func():
 
 ##### 实现@X 
 @X func = X(func)   --> init
+
 @X func() = X(func)()  --> init call
 
 ```python
