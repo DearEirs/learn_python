@@ -3,6 +3,7 @@
 装饰器返回的是可调用的(函数)对象,可调用的(函数)对象,可调用的(函数)对象。
 
 装饰器的使用:
+
 情景1:实现用户访问某些网页时,需要先登录,如果没登录就重定向到登录界面
 ```python
 def login_required(func):
@@ -41,6 +42,7 @@ def func():
     pass
 ```
 这时候,只需要在最外边再定义一层函数来接收调用装饰器时所传递的参数就可以
+
 这时候的func = login_required(login_url='login2.html')(func)(*args, *kwargs)
 
 ##### 同时使用多个装饰器:
@@ -76,11 +78,13 @@ def func():
 
 ```
 当出现同时多个装饰器时,装饰器会从下往上执行
+
 1、@outer3  func() = outer3(func)  --> 返回inner1
 2、@outer2  outer2(func) = outer2(outer3(func)) --> outer3(func)== func 被传入outer2
 3、@outer1  outer1(func) = outer1(outer2(outer3(func))) --> outer2(outer3(func)) == func 被传入outer1
 
 所以实际执行顺序为
+
 1.outer1(func):  --> print('inner1 first')
 2.outer1(func):  --> func() == outer2(outer3(func))
 3.outer2(func):  --> print('inner2 first')
