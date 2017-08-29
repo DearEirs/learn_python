@@ -57,6 +57,7 @@ def login_required(func):
 def func():
     pass
 ```
+这时每次调用func时 就会先判断用户是否已经登录,然后再执行func函数里边对应的操作
 
 情景2:但是有时候login_url 并不是固定的  所以我们需要在使用时自定义返回的页面
 ```python
