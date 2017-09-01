@@ -174,7 +174,7 @@ class DecoClass:
 def func(*args, **kwargs):
     print('Hello World')
 ```
-**使用类当装饰器时,要注意__init__ 和__call__,需要分清他们分别接受的是什么参数,在什么情况下调用**
+**使用类当装饰器时,要注意__init__ 和__call__,需要分清他们分别在什么情况下调用,接受的是又什么参数**
 
 @DecoClass(1) 1其实是被__init__接收的 而func则被__call__接收
 
