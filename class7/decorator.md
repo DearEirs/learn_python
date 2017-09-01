@@ -2,7 +2,7 @@
 
 装饰器返回的是可调用的(函数)对象,可调用的(函数)对象,可调用的(函数)对象。
 
-##### 不要被@迷惑
+### 不要被@迷惑
 @只是一个语法糖
 ```python
 1.
@@ -46,12 +46,12 @@ a = a + 1
 情景1:实现用户访问某些网页时,需要先登录,如果没登录就重定向到登录界面
 ```python
 def login_required(func):
-    login_url = 'login.html'
-    if 'user is not login':
-        print('please login first')
-        return redirect(login_url)
     def wrapper(*args, *kwargs):
-        result = func()
+        if 'user is login':
+            result = func()
+        else:
+            print('please login first')
+            result = redirect(login_url)
         return result
     return wrapper
 
@@ -64,17 +64,15 @@ def func():
 情景2:但是有时候login_url 并不是固定的  所以我们需要在使用时自定义返回的页面
 ```python
 def login_required(login_url='login.html')
-    if not isinstance(login_url,str):
-        login_url = 'login.html'
-    def wrapper(func):
-        login_url = 'login.html'
-        if 'user is not login':
-            print('please login first')
-            return redirect(login_url)
-        def _wrapper(*args, *kwargs):
-            result = func(*args, *kwargs)
+    def login_required(func):
+        def wrapper(*args, *kwargs):
+            if 'user is login':
+                result = func()
+            else:
+                print('please login first')
+                result = redirect(login_url)
             return result
-        return _wrapper
+        return wrapper
     return warpper
 
 @login_required(login_url='login2.html')
@@ -85,7 +83,7 @@ def func():
 
 这时候的func = login_required(login_url='login2.html')(func)(*args, *kwargs)
 
-##### 同时使用多个装饰器:
+### 同时使用多个装饰器:
 ```
 def outer1(func):
     def inner1():
@@ -134,9 +132,9 @@ def func():
 9. outer2(func):  --> print('inner2 second')
 10. outer1(func): --> print('inner1 second')
 
-##### 用类来做装饰器
+### 用类来做装饰器
 
-##### 实现@X 
+### 实现@X 
 @X func = X(func)   --> init
 
 @X func() = X(func)()  --> init call
@@ -156,7 +154,7 @@ def func():
     print('Hello World')
 ```
 
-##### 实现@DecoClass(args)
+### 实现@DecoClass(args)
 ```python
 class DecoClass:
     def __init__(self, args):
@@ -195,7 +193,7 @@ def func():
     print('Hello World')
 ```
 
-##### 实现@DecoClass.deco(1)
+### 实现@DecoClass.deco(1)
 ```python
 class DecoClass:
     def deco(arg):
@@ -231,7 +229,7 @@ def func():
     print('Hello World')
 ```
 
-##### 实现@decoclass(args)
+### 实现@decoclass(args)
 ```python
 class DecoClass:
     def __call__(self, *args, **kwargs):
@@ -251,7 +249,7 @@ def func():
     print('Hello World')
 ```
 
-##### 实现@decoclass.deco
+### 实现@decoclass.deco
 ```python
 class DecoClass:
     def deco(self, func):
@@ -269,7 +267,7 @@ def func():
     print('Hello World')
 ```
 
-##### 实现@decoclass.deco(args)
+### 实现@decoclass.deco(args)
 ```python
 class DecoClass:
     def deco(self, *args, **kwargs):
