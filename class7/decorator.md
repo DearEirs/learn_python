@@ -218,7 +218,7 @@ def func():
 ```
 
 ### 实现@decoclass
-```
+```python
 class DecoClass:
     def __call__(self, func):
         def inner(*args, **kwargs):
@@ -229,6 +229,7 @@ class DecoClass:
         return inner
 
 decoclass = DecoClass()
+
 @decoclass
 def func():
     print('Hello World')
@@ -249,6 +250,7 @@ class DecoClass:
         return outer
 
 decoclass = DecoClass()
+
 @decoclass(1)
 def func():
     print('Hello World')
@@ -267,6 +269,7 @@ class DecoClass:
 
 
 decoclass = DecoClass()
+
 @decoclass.deco
 def func():
     print('Hello World')
@@ -288,6 +291,7 @@ class DecoClass:
 
 
 decoclass = DecoClass()
+
 @decoclass.deco(1)
 def func():
     print('Hello World')
