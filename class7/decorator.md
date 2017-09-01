@@ -173,7 +173,9 @@ def func(*args, **kwargs):
     print('Hello World')
 ```
 **使用类当装饰器时,要注意__init__ 和__call__,需要分清他们分别接受的是什么参数,在什么情况下调用**
+
 @DecoClass(1) 1其实是被__init__接收的 而func则被__call__接收
+
 @DecoClass(1) func = DecoClass(1)(func)   DecoClass(1)初始化 返回的是实例   实例() 则调用__call__
 
 
