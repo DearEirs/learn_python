@@ -215,7 +215,7 @@ def func():
     print('Hello World')
 ```
 
-##### 实现@decoclass
+### 实现@decoclass
 ```
 class DecoClass:
     def __call__(self, func):
