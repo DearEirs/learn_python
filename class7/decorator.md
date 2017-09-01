@@ -84,7 +84,7 @@ def func():
 这时候的func = login_required(login_url='login2.html')(func)(*args, *kwargs)
 
 ### 同时使用多个装饰器:
-```
+```python
 def outer1(func):
     def inner1():
         print('inner1 first')
