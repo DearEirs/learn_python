@@ -181,7 +181,7 @@ def func(*args, **kwargs):
 @DecoClass(1) func = DecoClass(1)(func)   DecoClass(1)初始化 返回的是实例   实例() 则调用__call__
 
 
-##### 实现@DecoClass.deco
+### 实现@DecoClass.deco
 ```python
 class DecoClass:
     #[@classmethod|@staticmethod]
