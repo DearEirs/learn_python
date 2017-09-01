@@ -64,7 +64,7 @@ def func():
 情景2:但是有时候login_url 并不是固定的  所以我们需要在使用时自定义返回的页面
 ```python
 def login_required(login_url='login.html')
-    def login_required(func):
+    def outer(func):
         def wrapper(*args, *kwargs):
             if 'user is login':
                 result = func()
@@ -73,7 +73,7 @@ def login_required(login_url='login.html')
                 result = redirect(login_url)
             return result
         return wrapper
-    return warpper
+    return outer
 
 @login_required(login_url='login2.html')
 def func():
