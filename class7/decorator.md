@@ -132,12 +132,14 @@ def func():
 9. outer2(func):  --> print('inner2 second')
 10. outer1(func): --> print('inner1 second')
 
-### 用类来做装饰器
+---
+
+# 用类来做装饰器
 
 ### 实现@X 
 @X func = X(func)   --> init
 
-@X func() = X(func)()  --> init call
+@X() func = X(func)()  --> init call
 
 ```python
 class DecoClass:
