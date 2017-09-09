@@ -4,8 +4,8 @@ python 3.2开始在标准库中新增了concurrent.futures模块,它主要提供
 它们的使用方法相同:
 ```python
 with ProcessPoolExecutor(max_workers) as pool:
-    pool.submit(task, args)
-    pool.running() # 判断task是否在运行
+    pool.submit(task, args) # 返回Future对象
+    pool.running() # 判断task是否在运行
     pool.done() # 判断task是否执行完成
     pool.result() # 获取task的返回值
     pool.map(task, iterable) # 迭代iterable,并当作参数传到task执行(有序)
