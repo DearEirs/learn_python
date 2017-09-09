@@ -24,7 +24,7 @@ with ProcessPoolExecutor(max_workers) as pool:
 - 异常:为完成某个任务，不同程序单元之间过程中无需通信协调，也能完成任务的方式。
 
 
-```
+```python
 import socket
 import time
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
