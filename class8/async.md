@@ -66,6 +66,9 @@ def asyn_way():
     print(time.time() - start)
     return response
 ```
+因为socket需要3次握手成功才能简历起连接,而3次握手的过程中,需要通过网络来传递信息,这需要的时间是不确定的,socket连接是会一直阻塞进程,直至3次握手成功,才继续执行下面的代码.
+但是,如果对方服务器出现网络问题,而无法握手成功,那么socket就会一直阻塞,直至timeout,即使网络通畅,socket连接仍然需要不短时间
+这时程序处理请求需要很长时间,假如处理1个请求要1秒,那么处理10个请求就需要10秒
 
 ```python
 # 多进程
@@ -74,12 +77,12 @@ def multiproc_way():
     with ProcessPoolExecutor(10) as executor:
         proc_pool = {executor.submit(blocking_way, url) for url in urls}
     # use 0.6353843212127686
-    _ = len([proc.result() for proc in proc_pool])
+    result = [proc.result() for proc in proc_pool]
     print(time.time() - start)
     return proc_pool
 ```
-
-
+多进程的使用使用,使得处理时间大幅度降低,利用多核CPU的资源,使得多个进程并行,从而加快程序处理速度, 但是这样做的代价就是需要消耗更多的资源.
+下面来看多线程:
 ```python
 # 多线程
 def multithread_way():
@@ -87,11 +90,16 @@ def multithread_way():
     with ThreadPoolExecutor(10) as executor:
         thread_pool = {executor.submit(blocking_way, url) for url in urls}
     # use 0.5409300327301025
-    _ = len([proc.result() for proc in thread_pool])
+    result = [proc.result() for proc in thread_pool]
     print(time.time() - start)
 ```
+多线程执行时,其实每个线程还是阻塞的,
+python中,由于有GIL的存在,多个线程之间实际上是不能在同一个时间并行的
+多个线程中,其实每个线程还是阻塞的,只不过每个线程执行指定的指令数或者指定的时间就会释放GIL锁,让其他线程继续执行
+实际运行的只有获取到GIL锁的那个线程,而当线程中遇到需要等待的操作时,切换到其他线程中继续执行代码,无形中就会减少代码的运行时间
 
-
+---
+下面来看看非阻塞方式
 ```python
 # 非阻塞方式
 def nonbroking_way():
@@ -122,7 +130,7 @@ def nonbroking_way():
             pass
         return response
 ```
-
+sock.setblocking(False) 把socket设置为非阻塞模式,
 
 ```python
 import socket
