@@ -198,6 +198,9 @@ if __name__ == '__main__':
     print(time.time() - start)
 ```
 register(fileobj, events, data=None) 
+- fileobj:可以是文件描述符也可以是文件对象
+- events:位掩码，指明发生的是什么事件
+- data:与指定文件与指定事件绑定在一起的数据
 
 selector.register 在该socket的写事件上绑定了回调函数connected.在该socket上第一次发生的写事件意味着连接的建立后会调用connected函数
 
