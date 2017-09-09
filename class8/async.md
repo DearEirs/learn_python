@@ -24,12 +24,10 @@ with ProcessPoolExecutor(max_workers) as pool:
 - 异常:为完成某个任务，不同程序单元之间过程中无需通信协调，也能完成任务的方式。
 
 
-
+```
 import socket
 import time
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-
-import pymysql
 
 
 urls = [
@@ -67,7 +65,9 @@ def asyn_way():
     # use 1.8566324710845947
     print(time.time() - start)
     return response
+```
 
+```python
 # 多进程
 def multiproc_way():
     start = time.time()
@@ -77,8 +77,10 @@ def multiproc_way():
     _ = len([proc.result() for proc in proc_pool])
     print(time.time() - start)
     return proc_pool
+```
 
 
+```python
 # 多线程
 def multithread_way():
     start = time.time()
@@ -87,8 +89,10 @@ def multithread_way():
     # use 0.5409300327301025
     _ = len([proc.result() for proc in thread_pool])
     print(time.time() - start)
+```
 
 
+```python
 # 非阻塞方式
 def nonbroking_way():
     sock = socket.socket()
@@ -117,7 +121,10 @@ def nonbroking_way():
         except OSError:
             pass
         return response
+```
 
+
+```python
 import socket
 from selectors import DefaultSelector, EVENT_WRITE, EVENT_READ
 
@@ -172,22 +179,9 @@ if __name__ == '__main__':
         craw.fetch()
     loop()
     print(time.time() - start)
+```
 
-
-class AsyncDB:
-    def __init__(self, host, db, user, password, port=3306):
-        self.host = host
-        self.db = db
-        self.user = user
-        self.password = password
-
-    def connect(self):
-        self.conn = pymysql.Connect(host=host, db=db, user=user, password=password)
-        return self.conn
-
-    def insert()
-
-
+```python
 import socket
 from selectors import DefaultSelector, EVENT_READ
 
@@ -245,3 +239,4 @@ class Chat:
 if __name__ == '__main__':
     chat = Chat('localhost', 8000, 10)
     chat.run()
+```
