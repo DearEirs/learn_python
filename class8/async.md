@@ -1,7 +1,28 @@
-#!/usr/bin/env python
-# -*- coding:utf-8 -*-
-# arthur:Dear
-# 2017-09-07 21:18:25
+# 线/进程池
+python 3.2开始在标准库中新增了concurrent.futures模块,它主要提供了'ProcessPoolExecutor', 'ThreadPoolExecutor' 两个类,提供了线/进程池的支持
+
+它们的使用方法相同:
+```python
+with ProcessPoolExecutor(max_workers) as pool:
+    pool.submit(task, args)
+    pool.running() # 判断task是否在运行
+    pool.done() # 判断task是否执行完成
+    pool.result() # 获取task的返回值
+    pool.map(task, iterable) # 迭代iterable,并当作参数传到task执行(有序)
+```
+
+1. pool.submit 会返回Future对象
+2. Future:可以简单理解为是未来将会完成的操作
+3. 异步编程就是把需要等待的操作变成future,而释放CPU去执行其它代码
+
+
+# 初涉异步
+# 基本概念
+- 阻塞:程序在等待某个操作完成期间，自身无法继续干别的事情，则称该程序在该操作上是阻塞的。
+- 非阻塞:程序在等待某操作过程中，自身不被阻塞，可以继续运行干别的事情，则称该程序在该操作上是非阻塞的。
+- 同步:不同程序单元为了完成某个任务，在执行过程中需靠某种通信方式以协调一致，称这些程序单元是同步执行的。
+- 异常:为完成某个任务，不同程序单元之间过程中无需通信协调，也能完成任务的方式。
+
 
 
 import socket
@@ -165,3 +186,62 @@ class AsyncDB:
         return self.conn
 
     def insert()
+
+
+import socket
+from selectors import DefaultSelector, EVENT_READ
+
+selector = DefaultSelector()
+
+
+class Chat:
+    def __init__(self, host, port, max_clients):
+        self.clients = []
+        self.host = host
+        self.port = port
+        self.stoped = False
+        self.max_clients = max_clients
+
+    def run(self):
+        self.sock = socket.socket()
+        self.sock.bind((self.host, self.port))
+        self.sock.listen(self.max_clients)
+        self.sock.setblocking(False)
+        selector.register(self.sock, EVENT_READ, self.accept)
+        self.loop()
+
+    def accept(self, key, mask):
+        print('accept')
+        conn, addr = self.sock.accept()
+        self.clients.append(addr)
+        conn.setblocking(False)
+        selector.register(conn, EVENT_READ, self.send)
+
+    def send(self, key, mask):
+        selector.unregister(key.fd)
+        print('send')
+        conn = key.fileobj
+        print(conn.getpeername())
+        try:
+            data = conn.recv(4096)
+        except BlockingIOError:
+            pass
+        if data:
+            for client in self.clients:
+                if client != conn.getpeername():
+                    self.sock.sendto(data, client)
+
+    def loop(self):
+        while not self.stoped:
+            events = selector.select()
+            for event_key, event_mask in events:
+                callback = event_key.data
+                callback(event_key, event_mask)
+
+    def stop(self):
+        self.stoped = True
+
+
+if __name__ == '__main__':
+    chat = Chat('localhost', 8000, 10)
+    chat.run()
