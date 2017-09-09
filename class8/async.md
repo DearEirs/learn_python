@@ -130,14 +130,23 @@ def nonbroking_way():
             pass
         return response
 ```
-sock.setblocking(False) 把socket设置为非阻塞模式,
+sock.setblocking(False) 把socket设置为非阻塞模式,那么socket 执行connect, recv等操作时是不会阻塞程序的
+但是问题随之而来socket 执行完connect后再执行send操作,send的时候如何才能知道socket的连接已经成功建立了呢？
+这时就需要不断循环去尝试,直至连接建立,并发送请求后,才继续执行下面的代码,而recv时也是同理.
 
+这样看起来,程序更加复杂,而且效率也没有得到提升,因为socket虽然是非阻塞的,但是代码中在send,recv时还是需要等待上一步的操作完成时才能执行
+那么如果有一个人可以在socket建立完成时来通知程序,可以执行send操作了,那样在等待socket建立的过程中,CPU就可以去干其他的事情了.
+简单的例子:周末去吃饭,但是餐厅人很多,需要等位,这时候如果你一直在这里等,你就不能走开去干其他事情,直至吃完饭之后.
+那么如果你把电话号码留给服务员,让他在轮到你的时候给你电话,让你过来吃饭,那么在等待电话到来之前,你可以去干你想干的事情.
+
+- epoll:提供了专门的系统模块让应用程序可以接收事件通知(把电话号码留给服务员)
+- callback:在知道I/O状态发生改变后所需要执行的操作(服务员打电话通知可以过去吃饭)
 ```python
 import socket
 from selectors import DefaultSelector, EVENT_WRITE, EVENT_READ
 
 selector = DefaultSelector()
-stopped = False
+stopped = False 
 urls_todo = ['/', '/1', '/2', '/3', '/4', '/5', '/6', '/7', '/8', '/9']
 
 class Crawler:
@@ -183,11 +192,21 @@ if __name__ == '__main__':
     import time
     start = time.time()
     for url in urls_todo:
-        craw = Crawler('url')
-        craw.fetch()
+        crawl = Crawler('url')
+        crawl.fetch()
     loop()
     print(time.time() - start)
 ```
+register(fileobj, events, data=None) 
+
+selector.register 在该socket的写事件上绑定了回调函数connected.在该socket上第一次发生的写事件意味着连接的建立后会调用connected函数
+
+而connected函数在连接建立成功后再解除了该socket上所有绑定的数据。
+
+在connect函数中同样也用selector.register 绑定了read_response函数,当socket发生可读事件(即服务器已经返回数据)时调用read_response函数.
+
+这些事件触发后,我们就要执行回调了,我们可以用selector.select()来获取所触发的事件,当没有事件被触发时selector.select()会阻塞,直至事件触发.
+
 
 ```python
 import socket
@@ -202,9 +221,9 @@ class Chat:
         self.host = host
         self.port = port
         self.stoped = False
-        self.max_clients = max_clients
+        self.max_clients = max_clients
 
-    def run(self):
+    def run(self):
         self.sock = socket.socket()
         self.sock.bind((self.host, self.port))
         self.sock.listen(self.max_clients)
@@ -217,9 +236,9 @@ class Chat:
         conn, addr = self.sock.accept()
         self.clients.append(addr)
         conn.setblocking(False)
-        selector.register(conn, EVENT_READ, self.send)
+        selector.register(conn, EVENT_READ, self.handle)
 
-    def send(self, key, mask):
+    def handle(self, key, mask):
         selector.unregister(key.fd)
         print('send')
         conn = key.fileobj
@@ -248,3 +267,6 @@ if __name__ == '__main__':
     chat = Chat('localhost', 8000, 10)
     chat.run()
 ```
+
+原理与刚才一样,当Chat.run()时在该socket的写事件上绑定了回调函数accept函数.在该socket上第一次发生的读事件意味着有新客户端连接后会调用accept函数
+执行accept时又会把socket绑定到handle函数上,当socket发生可读事件(即有数据可获取时),调用handle函数,获取clinet发过来的数据,并转发到其他的client
