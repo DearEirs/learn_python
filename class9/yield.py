@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 # arthur:Dear
 # 2017-09-14 10:01:35
+# 需求：读取若干文件内容合并到同一文件
 
 import os
 import time
@@ -17,8 +18,7 @@ def blocking_func(file):
     '''
     执行阻塞操作
     '''
-    new_file = os.open('new1', os.O_WRONLY | os.O_NONBLOCK)
-    new_file = os.fdopen(new_file, 'a')
+    new_file = open(file, 'a')
     with open(file) as f:
         data = f.read()
         new_file.writelines(data)
