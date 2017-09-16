@@ -15,7 +15,7 @@ files = ['file1', 'file2', 'file3', 'file4']
 
 def blocking_func(file):
     '''
-    阻塞
+    执行阻塞操作
     '''
     new_file = os.open('new1', os.O_WRONLY | os.O_NONBLOCK)
     new_file = os.fdopen(new_file, 'a')
