@@ -36,7 +36,8 @@ loop = asyncio.get_event_loop_policy().new_event_loop()
 
 # 运行
 loop.run_until_complete(future) # 运行loop 直至future set_result即协程执行完成或返回错误
-loop.run_forever() # 一直运行loop, 直至loop被stop,如果在stop前 loop已经接受到了Task事件,那么loop会在所有已接受到的事件完成后才暂停
+loop.run_forever() 
+# 一直运行loop, 直至loop被stop,如果在stop前 loop已经接受到了Task事件,那么loop会在所有已接受到的事件完成后才暂停
 loop.is_running() # 返回bool 判断loop是否在运行
 
 # 暂停
