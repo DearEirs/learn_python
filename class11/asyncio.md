@@ -83,30 +83,6 @@ future.set_result(retult) # 标记future完成并设置其结果
 future.add_done_callback(func) # 添加回调, 当future被标记为完成时执行
 ```
 
-### 其他
-```
-async def func():
-  pass
-
-# func --> 函数
-# func() --> 返回一个协程
-
-# 使用async def 定义协程时, 里面可以没有await
-# 使用async def 定义协程时, 不能使用yield from
-
-# 实现了__await__方法的对象也称为future-like对象
-
-# awaitable 对象
-# 1.调用原生协程对象的原生协程
-# 2.被@asyncio.coroutine 装饰的生成器函数调用后返回的生成器协程
-# 3.实现了__await__魔术方法的对象(__await__ 必须返回迭代器, 否则会报TypeError)
-# 实现了__await__的对象也被称为类似未来对象(Future-like)
-
-# 异步数据库相关的第三方库
-# motor --> mongodb
-# aiomysql --> mysql
-# aioredis --> redis
-```
 
 ### 多个协程同时执行
 ```
@@ -134,3 +110,31 @@ return 2组Future 一组为已经完成(done)的,一组是还在等待完成(ped
 # 否则,第一个引发的异常将立即传播到返回的future
 # 如果外部future被取消,那么给定的所有future都将取消
 ```
+
+
+### 其他
+```
+async def func():
+  pass
+
+# func --> 函数
+# func() --> 返回一个协程
+
+# 使用async def 定义协程时, 里面可以没有await
+# 使用async def 定义协程时, 不能使用yield from
+
+# 实现了__await__方法的对象也称为future-like对象
+
+# awaitable 对象
+# 1.调用原生协程对象的原生协程
+# 2.被@asyncio.coroutine 装饰的生成器函数调用后返回的生成器协程
+# 3.实现了__await__魔术方法的对象(__await__ 必须返回迭代器, 否则会报TypeError)
+# 实现了__await__的对象也被称为类似未来对象(Future-like)
+
+# 异步数据库相关的第三方库
+# motor --> mongodb
+# aiomysql --> mysql
+# aioredis --> redis
+```
+
+
