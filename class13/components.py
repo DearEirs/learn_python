@@ -11,10 +11,6 @@ import os
 from lxml import etree
 
 
-class LoginMixin:
-    pass
-
-
 class CountMixin:
     pass
 
