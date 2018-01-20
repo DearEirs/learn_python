@@ -19,7 +19,7 @@ date与类绑定, 代表着一类日期, 而date(2018, 1, 16)这个实例代表�
 <expression> . <name>
 ```
 
-<expression> 的求值是一个对象, 而name是对象属性的名字
+< expression > 的求值是一个对象, 而name是对象属性的名字
 对象也有方法, 方法从对象的参数和对象本身计算出结果, 如:
 ```python
 >>> today.strftime('%A, %B %d')
