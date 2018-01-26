@@ -84,10 +84,12 @@ python 中的元祖是由0索引开始的, 这意味着索引0选出第一个元
 使一个元祖成为另外一个元祖的元素的能力, 为我们的编程语言提供了一种新的组合方法. 我们称元祖的这种嵌套能力为元素的封闭属性, 通常, 如果组合的结果本身可以使用相同的方法进行组合, 则合并数据值的方法将满足封闭属性, 封闭是任何组合方法的关键, 因为它允许我们创建层次结构——结构组成部分,它本身是由部分,等等, 结构的组成部分由结构本身组成. 
 
 
-![image](https://raw.githubusercontent.com/wizardforcel/sicp-py-zh/master/img/sequence.png)
 
 递归列表:
 > 递归列表列表由一系列的值对表示, 每个值对的第一个元素是列表里边的元素, 第二个元素表示列表的剩余部分, 最后一个值对的第二个元素为None, 这表明列表已经结束
+
+
+![image](https://raw.githubusercontent.com/wizardforcel/sicp-py-zh/master/img/sequence.png)
 
 ```python
 >>> (1, (2, (3, (4, None))))
