@@ -149,3 +149,85 @@ python 中的元祖是由0索引开始的, 这意味着索引0选出第一个元
 
 # 这时我们就已经实现了列表的2个基本功能, 计算长度, 元素选择
 ```
+
+Mapping(映射)： 一个强大的方法, 把元组中每个元素当做参数传递到函数里边执行, 并收集调用函数返回的结果. **python3返回的是map类型, 可以通过tuple或list来强制类型转换**
+
+map(func, *iterables) --> map object
+
+for语句的组成：
+```python
+for <name> in <expression>:
+    <suite>
+```
+for语句执行的过程：
+1. 执行头部语句中的 <expression>, 它必须返回一个可迭代的值
+2. 对于序列里的每一个值, 按顺序执行--把 <name> 绑定到局部栈帧, 然后执行子句
+  
+这个求值过程的一个重要结果是，在for语句执行完毕之后，name会被绑定到序列的最后一个元素上
+
+序列解包: 程序中的一个常见模式是有一系列的元素, 它们本身是序列, 但都是固定的长度, For 语句可以在其header中包含多个name, 以便将每个元素序列 "解压" 到各自的元素中.
+
+```python
+>>> pairs = ((1, 2), (2, 2), (2, 3), (4, 4))
+>>> for x, y in pairs:
+        print(x, y)
+# 当for循环执行时, x, y 会被依次与pairs的元素的第一/二个元素绑定
+```
+
+range是Python的另一种内建序列类型，它表示一个整数范围。由range函数来创建，它接受两个整数参数：所得范围是第一个数字到最后一个数字之间的范围(不包含1个数字).
+range的使用方式:
+```python
+# range(stop) -> range object
+# range(start, stop[, step]) -> range object
+# start, stop, step 这3个参数都必须是整形, 其中step是可选参数, 默认为1
+# start参数表示范围的起始值, stop表示范围的末尾, step表示步幅, 指从起始值到末尾值每次循环所取值的间隔
+
+>>> tuple(range(1, 10)) # 包含1, 但不包含10
+(1, 2, 3, 4, 5, 6, 7, 8, 9)
+```
+
+Slicing(切片): 在 Python 中, 序列切片与元素选择相似, 用方括号表示。冒号分隔起始和结束索引, 被省略的任何绑定都假定为极端值: 0表示起始索引,序列的长度表示结束索引
+
+```python
+>>> digits = [1, 2, 3, 4]
+>>> digits[0:2]
+[1,2]
+>>> digits[1:] # 忽略了结束值, 所以假定结束值为极限值, 即序列的长度
+[2,3,4]
+```
+
+字符串可以表达任意文本, 被单引号或者双引号包围, 字符串也是序列, 拥有序列的基本行为, 计算长度, 元素选择.
+
+传统接口是一种数据格式, 它在多个模块化组件之间共享, 可以混合并匹配以执行数据处理。
+
+需求: 对前 n 个斐波那契数列的偶数成员求和
+
+具体步骤：
+```python
+ enumerate     map    filter  accumulate
+-----------    ---    ------  ----------
+naturals(n)    fib    iseven     sum
+
+# fib 函数用于计算斐波那契数列
+>>> def fib(k):
+        """Compute the kth Fibonacci number."""
+        prev, curr = 1, 0  # curr is the first Fibonacci number.
+        for _ in range(k - 1):
+             prev, curr = curr, prev + curr
+        return curr
+
+
+# iseven 函数判断数值是否是偶数
+>>> def iseven(n):
+        return n % 2 == 0
+      
+# filter 函数接收一个函数与一个序列, 依次把序列中的元素当作参数传到函数里边执行, 并返回序列的元素中判断为 true的元素
+
+
+>>> def sum_even_fibs(n):
+        """Sum the first n even Fibonacci numbers."""
+        return sum(filter(iseven, map(fib, range(1, n+1))))
+# map(fib, range(1, n+1) 计算出斐波那契数列
+# filter(iseven, 斐波那契数列) 计算出数列中为偶数的值
+# sum(偶数值的列表) 求和
+```
