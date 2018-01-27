@@ -231,3 +231,59 @@ naturals(n)    fib    iseven     sum
 # filter(iseven, 斐波那契数列) 计算出数列中为偶数的值
 # sum(偶数值的列表) 求和
 ```
+
+通过引入nonlocal语句,我们已经创建了一个赋值语句的双重角色。它可以改变局部绑定,也可以改变非局部绑定。事实上,赋值语句已经有了一个双重角色:它们要么创建新的绑定或重新现有的名字.
+
+正确分析non-local 语句代码的关键是要记住：
+- 只有函数调用才能引入新的帧
+- 赋值语句只会改变已经存在的栈帧的绑定关系.
+
+可以使用列表构造函数复制列表。对一个列表的更改不会影响其他表, 除非它们共享结构。
+
+```python
+>>> suits = ['heart', 'diamond', 'spade', 'club'] # 定义了一个新列表suits
+>>> nest = list(suits)  # 复制列表suits的值, 并与nest绑定
+>>> nest[0] = suits     # 把列表nest的第一个元素改成suits的值
+```
+
+!(image)[https://wizardforcel.gitbooks.io/sicp-in-python/content/img/lists.png]
+
+nest形成的是一个全新的列表, 对nest的改变并不会影响到suits, 因为两个列表可能有相同的内容,但实际上是不同的列表, 所以我们需要一种方法来检测是否两个对象都是相同的. Python 提供了两个比较运算符, is 和 is not, 它可以测试两个表达式的求值结果是否为相同的对象, 如果两个对象在其当前值中相等, 并且对其中的任何更改都将始终反映在另一个中, 则它们是相同的.**身份是比平等更强的条件.**
+
+```python
+>>> suits == ['heart', 'diamond', 'spade', 'club'] # 右边的列表是一个全新的列表, 它与suits有相同的值, 所以它们是平等的
+True
+>>> suits is ['heart', 'diamond', 'spade', 'club'] # 但是它们有各自的身份, 改变一个列表并不会影响到一个列表. 所以它们的身份不一样
+False
+```
+
+列表推导式: 使用扩展语法来创建列表, 类似于生成器表达式的语法(包含一个表达式，后跟一个for子句，然后是零个或多个for或if子句的括号)
+```python
+l1 = [(i,j) for i in range(10)  for j in range(5) if i > 3 ]
+l2 = [(i,j) for i in range(10)  if i > 3 for j in range(5) ]
+
+l3 = [(i, j, k) for i in range(10) if i % 2 ==0 for j in range(5) if j > 3 for k in range(10) if i >5]
+```
+
+
+通过函数实现列表:
+```python
+>>> def make_mutable_rlist():
+        """Return a functional implementation of a mutable recursive list."""
+        contents = empty_rlist
+        def dispatch(message, value=None):
+            nonlocal contents
+            if message == 'len':
+                return len_rlist(contents)
+            elif message == 'getitem':
+                return getitem_rlist(contents, value)
+            elif message == 'push_first':
+                contents = make_rlist(value, contents)
+            elif message == 'pop_first':
+                f = first(contents)
+                contents = rest(contents)
+                return f
+            elif message == 'str':
+                return str(contents)
+        return dispatch
+```
