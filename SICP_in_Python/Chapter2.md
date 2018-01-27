@@ -120,7 +120,8 @@ python 中的元祖是由0索引开始的, 这意味着索引0选出第一个元
 
 
 # 这个时候我们就可以利用上边定义的方法来访问列表了
->>> counts = make_rlist(1, make_rlist(2, make_rlist(3, make_rlist(4, empty_rlist)))) # 相当于(1, (2, (3, (4, None))))
+
+>>> counts = make_rlist(1, make_rlist(2, make_rlist(3, make_rlist(4, empty_rlist))))# 相当于(1, (2, (3, (4, None))))
 >>> first(counts) # 第一个元素是1
 1
 >>> rest(counts) # 第二个元素是列表的剩余部分
@@ -251,10 +252,14 @@ naturals(n)    fib    iseven     sum
 nest形成的是一个全新的列表, 对nest的改变并不会影响到suits, 因为两个列表可能有相同的内容,但实际上是不同的列表, 所以我们需要一种方法来检测是否两个对象都是相同的. Python 提供了两个比较运算符, is 和 is not, 它可以测试两个表达式的求值结果是否为相同的对象, 如果两个对象在其当前值中相等, 并且对其中的任何更改都将始终反映在另一个中, 则它们是相同的.**身份是比平等更强的条件.**
 
 ```python
->>> suits == ['heart', 'diamond', 'spade', 'club'] # 右边的列表是一个全新的列表, 它与suits有相同的值, 所以它们是平等的
+
+>>> suits == ['heart', 'diamond', 'spade', 'club'] 
 True
->>> suits is ['heart', 'diamond', 'spade', 'club'] # 但是它们有各自的身份, 改变一个列表并不会影响到一个列表. 所以它们的身份不一样
+>>> suits is ['heart', 'diamond', 'spade', 'club'] 
 False
+
+# 第一个语句右边的列表是一个全新的列表, 它与suits有相同的值, 所以它们是平等的
+# 但是它们有各自的身份, 改变一个列表并不会影响到一个列表. 所以它们的身份不一样
 ```
 
 列表推导式: 使用扩展语法来创建列表, 类似于生成器表达式的语法(包含一个表达式，后跟一个for子句，然后是零个或多个for或if子句的括号)
