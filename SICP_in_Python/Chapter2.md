@@ -121,7 +121,7 @@ python 中的元祖是由0索引开始的, 这意味着索引0选出第一个元
 
 # 这个时候我们就可以利用上边定义的方法来访问列表了
 
->>> counts = make_rlist(1, make_rlist(2, make_rlist(3, make_rlist(4, empty_rlist))))# 相当于(1, (2, (3, (4, None))))
+>>> counts = make_rlist(1, make_rlist(2, make_rlist(3, make_rlist(4, empty_rlist))))#相当于(1, (2, (3, (4, None))))
 >>> first(counts) # 第一个元素是1
 1
 >>> rest(counts) # 第二个元素是列表的剩余部分
