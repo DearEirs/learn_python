@@ -99,3 +99,53 @@ python 中的元祖是由0索引开始的, 这意味着索引0选出第一个元
 - 它的第一个元素
 - 序列剩余的部分
 
+```python
+# 递归列表的实现
+>>> empty_rlist = None # 定义空列表
+
+
+>>> def make_rlist(first, rest): # 生成列表
+        """Make a recursive list from its first element and the rest."""
+        return (first, rest)
+        
+        
+>>> def first(s): # 获取列表的第一个元素
+        """Return the first element of a recursive list s."""
+        return s[0]
+        
+  
+>>> def rest(s): # 获取列表的第二个元素, 即剩余部分
+        """Return the rest of the elements of a recursive list s."""
+        return s[1]
+
+
+# 这个时候我们就可以利用上边定义的方法来访问列表了
+>>> counts = make_rlist(1, make_rlist(2, make_rlist(3, make_rlist(4, empty_rlist)))) # 相当于(1, (2, (3, (4, None))))
+>>> first(counts) # 第一个元素是1
+1
+>>> rest(counts) # 第二个元素是列表的剩余部分
+(2, (3, (4, None)))
+
+# 递归列表可以存放一系列的值,但它还没有实现序列的抽象.使用抽象数据类型的定义,我们可以实现描述序列的两个行为:长度和元素的选择.
+
+>>> def len_rlist(s): # 获取列表的长度
+        """Return the length of recursive list s."""
+        length = 0
+        while s != empty_rlist:
+            s, length = rest(s), length + 1
+        return length
+        
+>>> def getitem_rlist(s, i): # 获取列表的指定元素
+        """Return the element at index i of recursive list s."""
+        while i > 0:
+            s, i = rest(s), i - 1
+        return first(s)
+        
+        
+>>> len_rlist(counts)
+4
+>>> getitem_rlist(counts, 1)  # The second item has index 1
+2
+
+# 这时我们就已经实现了列表的2个基本功能, 计算长度, 元素选择
+```
