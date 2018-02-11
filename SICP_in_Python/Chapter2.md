@@ -363,3 +363,35 @@ class B(A):
 当子类的属性与父类属性名称一样时, 会发生重载, 已重载的属性依然可以通过类的对象来访问.
 
 多重继承的查找顺序, 按照__mro__ 从左往右
+
+属性本身是被存储在一个叫attributes的本地字典中的.
+
+通过函数实现类的实例化:
+```python
+def make_instance(cls):
+    """Return a new object instance, which is a dispatch dictionary."""
+    def get_value(name): # 获取属性的方法
+        if name in attributes: # 先从市里本身找, 找到属性直接返回
+            return attributes[name]
+        else: # 找不到就到类里边找
+            value = cls['get'](name)
+            return bind_method(value, instance)
+    def set_value(name, value): # 设置属性的方法
+        attributes[name] = value # 直接把属性设置到attributes字典里
+    attributes = {}
+    instance = {'get': get_value, 'set': set_value}
+    return instance
+        
+        
+def bind_method(value, instance):
+    """Return a bound method if value is callable, or value otherwise."""
+    # 如果value是function, 则把绑定方法返回, 否则直接返回value
+    if callable(value):
+        def method(*args):
+            return value(instance, *args)
+        return method
+    else:
+        return value
+```
+
+
